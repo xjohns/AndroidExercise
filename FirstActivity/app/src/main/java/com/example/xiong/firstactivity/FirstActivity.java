@@ -12,19 +12,24 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class FirstActivity extends AppCompatActivity {
+public class FirstActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("FirstActivity", "Task id is " + getTaskId());//打印当前返回栈的 id
         setContentView(R.layout.activity_first);
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button button1 = (Button) findViewById(R.id.button1);
+        button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //直接调用SecondActivity中构建的方法actionStart
+                SecondActivity.actionStart(FirstActivity.this, "重要数据1", "重要数据2");
                 //显式Intent
-                Intent intent = new Intent(FirstActivity.this,SecondActivity.class);
-                startActivityForResult(intent,1);
+//                Log.d("FirstActivity", this.toString());//打印当前实例名
+//                Intent intent = new Intent(FirstActivity.this,SecondActivity.class);
+//                startActivity(intent);
+//                startActivityForResult(intent,1);
                 //隐式Intent
 //                Intent intent = new Intent("com.example.xiong.firstactivity.ACTION_START");
 //                startActivity(intent);
@@ -39,6 +44,12 @@ public class FirstActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("FirstActivity","onRestart");
     }
 
     @Override
@@ -61,17 +72,17 @@ public class FirstActivity extends AppCompatActivity {
         }
         return true;
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
-            case 1:{
-                if (resultCode == RESULT_OK){
-                    String returnedData = data.getStringExtra("data_return");
-                    Log.d("第一个活动",returnedData);
-                }
-                break;
-            }
-            default:
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        switch (requestCode){
+//            case 1:{
+//                if (resultCode == RESULT_OK){
+//                    String returnedData = data.getStringExtra("data_return");
+//                    Log.d("第一个活动",returnedData);
+//                }
+//                break;
+//            }
+//            default:
+//        }
+//    }
 }
