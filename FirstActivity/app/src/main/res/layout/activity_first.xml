@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.xiong.firstactivity.FirstActivity">
     <Button
-        android:text="跳转"
+        android:text="第一页"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button"

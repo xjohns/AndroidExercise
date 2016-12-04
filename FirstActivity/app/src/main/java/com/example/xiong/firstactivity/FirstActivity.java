@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +23,8 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //显式Intent
-//                Intent intent = new Intent(FirstActivity.this,SecondActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(FirstActivity.this,SecondActivity.class);
+                startActivityForResult(intent,1);
                 //隐式Intent
 //                Intent intent = new Intent("com.example.xiong.firstactivity.ACTION_START");
 //                startActivity(intent);
@@ -32,9 +33,10 @@ public class FirstActivity extends AppCompatActivity {
 //                intent.setData(Uri.parse("http://www.baidu.com"));
 //                startActivity(intent);
                 //隐式Intent调用系统拨号
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:10010"));
-                startActivity(intent);
+//                Intent intent = new Intent(Intent.ACTION_DIAL);
+//                intent.setData(Uri.parse("tel:10010"));
+//                startActivity(intent);
+
             }
         });
     }
@@ -58,5 +60,18 @@ public class FirstActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case 1:{
+                if (resultCode == RESULT_OK){
+                    String returnedData = data.getStringExtra("data_return");
+                    Log.d("第一个活动",returnedData);
+                }
+                break;
+            }
+            default:
+        }
     }
 }
