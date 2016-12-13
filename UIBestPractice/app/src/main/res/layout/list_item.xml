@@ -7,6 +7,7 @@
 
     <LinearLayout
         android:id="@+id/layout_right"
+        android:orientation="horizontal"
         android:layout_gravity="right"
         android:background="@drawable/message_right"
         android:layout_width="wrap_content"
@@ -14,7 +15,7 @@
 
         <TextView
             android:id="@+id/tView_message_right"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
             android:layout_margin="10dp"
             android:textColor="#fff"
             android:layout_width="wrap_content"
@@ -23,6 +24,7 @@
 
     <LinearLayout
         android:id="@+id/layout_left"
+        android:orientation="horizontal"
         android:layout_gravity="left"
         android:background="@drawable/message_left"
         android:layout_width="wrap_content"
@@ -30,7 +32,7 @@
 
         <TextView
             android:id="@+id/tView_message_left"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
             android:layout_margin="10dp"
             android:textColor="#fff"
             android:layout_width="wrap_content"
