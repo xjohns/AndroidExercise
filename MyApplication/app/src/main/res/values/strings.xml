@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="add">增加</string>
+    <string name="reduce">减少</string>
+    <string name="reset">重置</string>
+    <string name="show">对话框进度条</string>
+</resources>
