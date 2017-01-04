@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private MyDatabaseHelper dbHelper;
@@ -16,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dbHelper = new MyDatabaseHelper(this, "BookStore.db", null, 2);
+        dbHelper = new MyDatabaseHelper(this, "BookStore.db", null, 3);
         Button btn_createDb = (Button) findViewById(R.id.btn_createDatabase);
         btn_createDb.setOnClickListener(this);
         Button btn_addData = (Button) findViewById(R.id.btn_addData);
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_deleteData.setOnClickListener(this);
         Button btn_queryData = (Button) findViewById(R.id.btn_queryData);
         btn_queryData.setOnClickListener(this);
+        Button btn_replaceData = (Button) findViewById(R.id.btn_replaceData);
+        btn_replaceData.setOnClickListener(this);
     }
 
     @Override
@@ -56,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 contentValues.put("pages", 510);
                 contentValues.put("price", 19.95);
                 db.insert("Book", null, contentValues);//插入第二条数据
+                contentValues.clear();
+                contentValues.put("category_name", "Science");
+                contentValues.put("category_code", "001");
+                db.insert("Category", null, contentValues);//插入第三条数据
                 break;
             }
             case R.id.btn_updateData:{
@@ -101,6 +108,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }while (cursor.moveToNext());
                 }
                 cursor.close();
+                break;
+            }
+            case R.id.btn_replaceData:{
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                db.beginTransaction();//开启事务
+                db.delete("Book", null, null);
+                ContentValues values = new ContentValues();
+                values.put("name", "Computer Code");
+                values.put("author", "Somebody");
+                values.put("pages", "101");
+                values.put("price", "20.6");
+                db.insert("Book", null, values);
+                db.setTransactionSuccessful();//事务已执行成功
+                Toast.makeText(this, "替换成功", Toast.LENGTH_SHORT).show();
+                db.endTransaction();
                 break;
             }
         }
