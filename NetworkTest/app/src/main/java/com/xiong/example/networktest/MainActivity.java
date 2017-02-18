@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int SHOW_RESPONSE = 0;
     private Button sendRequest;
     private TextView responseText;
-    private String targetPage = "http://www.baidu.com";
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -41,27 +40,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         sendRequest = (Button) findViewById(R.id.send_request);
         sendRequest.setOnClickListener(this);
-        responseText = (TextView) findViewById(R.id.send_request);
+        responseText = (TextView) findViewById(R.id.tV_response);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.send_request:{
-                sendRequestWithHttpURLConnection();
-                break;
-            }
+        if (v.getId() == R.id.send_request){
+            sendRequestWithHttpURLConnection();
         }
-
     }
 
     private void sendRequestWithHttpURLConnection() {
+        //开启线程来发起网络请求
         new Thread(new Runnable() {
             @Override
             public void run() {
                 HttpURLConnection connection = null;
                 try {
-                    URL url = new URL(targetPage);
+                    URL url = new URL("http://www.baidu.com");
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
                     connection.setConnectTimeout(8000);
@@ -79,12 +75,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //把服务器返回的结果存放在message中
                     message.obj = response.toString();
                     handler.sendMessage(message);
-                } catch (MalformedURLException e) {
+                }catch (Exception e) {
                     e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                }finally {
+                    if (connection != null){
+                        connection.disconnect();
+                    }
                 }
             }
-        })
+        }).start();
     }
 }
